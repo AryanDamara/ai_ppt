@@ -25,6 +25,8 @@ async def run_pipeline(
     job_id: str,
     request: dict,
     publish_event: Callable,
+    tenant_id: str | None = None,
+    doc_ids: list[str] | None = None,
 ) -> dict:
     """
     4-step AI orchestration pipeline.
@@ -72,6 +74,8 @@ async def run_pipeline(
                     },
                     temperature=temp,
                     cost_tracker=cost_tracker,
+                    tenant_id=tenant_id,
+                    doc_ids=doc_ids,
                 )
                 for temp in [0.3, 0.5, 0.7, 0.9]
             ]

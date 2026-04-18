@@ -1,0 +1,34 @@
+# Judge: Schema Compliance Evaluation
+# Version: v1
+
+name: judge_schema_compliance
+version: v1
+model_class: fast
+max_tokens: 200
+temperature: 0.0
+
+system: |
+  You are an AI evaluation judge specialising in JSON schema compliance.
+  Always respond with valid JSON only.
+
+user: |
+  Evaluate whether this AI-generated JSON output complies with the presentation schema.
+
+  GENERATED OUTPUT:
+  {generated_output}
+
+  SCHEMA REQUIREMENTS:
+  - Must be valid JSON
+  - Must have: "title" (string), "narrative_framework" (enum), "slides" (array)
+  - Each slide must have: "slide_index" (int), "slide_type" (enum), "action_title" (string ≤60 chars)
+  - action_title must be ≤ 60 characters
+  - slide_type must be one of: title_slide, content_bullets, data_chart, visual_split, table, section_divider
+
+  Score 0.0-1.0 for schema compliance.
+
+  Respond with ONLY valid JSON:
+  {{
+    "score": float,
+    "reasoning": "one sentence",
+    "issues": ["specific schema violation 1", "violation 2"]
+  }}

@@ -11,7 +11,7 @@ import uuid
 
 from core.config import get_settings
 from core.logging import setup_logging, get_logger, request_id_var
-from routers import generation, websocket
+from routers import generation, websocket, documents, feedback, evals, costs, export_integrations
 from services.db.session import init_db, check_postgres
 
 settings = get_settings()
@@ -28,6 +28,15 @@ async def lifespan(app: FastAPI):
     logger.info("startup_initiated", environment=settings.environment)
     await init_db()
     logger.info("database_initialized")
+
+    # Phase 5: Preload prompt registry
+    try:
+        from services.llmops.prompt_registry import get_registry
+        registry = get_registry()
+        logger.info("prompt_registry_loaded", count=len(registry.list_prompts()))
+    except Exception as e:
+        logger.warning("prompt_registry_load_failed", error=str(e))
+
     yield
     # ─── Shutdown ───────────────────────────────────────────────────────────
     logger.info("shutdown_initiated")
@@ -111,6 +120,13 @@ async def validate_schema_version(request: Request, call_next):
 
 app.include_router(generation.router, prefix="/api/v1", tags=["generation"])
 app.include_router(websocket.router, tags=["websocket"])
+app.include_router(documents.router, prefix="/api/v1", tags=["documents"])
+
+# Phase 5: LLMOps, feedback, evals, costs, export routers
+app.include_router(feedback.router, prefix="/api/v1", tags=["feedback"])
+app.include_router(evals.router, prefix="/api/v1", tags=["evals"])
+app.include_router(costs.router, prefix="/api/v1", tags=["costs"])
+app.include_router(export_integrations.router, prefix="/api/v1", tags=["export"])
 
 
 @app.get("/health")

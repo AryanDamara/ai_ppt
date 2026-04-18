@@ -46,6 +46,15 @@ class GenerateRequest(BaseModel):
         default=None,
         description="UUID for idempotency. Same ID = same job returned without re-running."
     )
+    # Phase 4: Optional list of previously-ingested document IDs to ground this deck
+    doc_ids: Optional[list[str]] = Field(
+        default=None,
+        description="List of document IDs to ground the presentation generation in."
+    )
+    tenant_id: Optional[str] = Field(
+        default=None,
+        description="Tenant ID for document retrieval and RAG grounding."
+    )
 
 
 class GenerateResponse(BaseModel):
@@ -137,6 +146,7 @@ async def generate_presentation(request: Request, body: GenerateRequest):
     generate_presentation_task.apply_async(
         args=[job_id, request_dict],
         task_id=job_id,              # Force Celery to use our pre-generated UUID
+        kwargs={"tenant_id": body.tenant_id, "doc_ids": body.doc_ids},
     )
 
     # Store initial job state
@@ -203,3 +213,71 @@ async def invalidate_cache(pattern: str = ""):
     deleted = await do_invalidate(pattern)
     logger.info("cache_invalidated", pattern=pattern, deleted_count=deleted)
     return {"deleted": deleted}
+
+
+@router.post("/deck/{presentation_id}/export")
+async def export_deck_to_pptx(
+    presentation_id: str,
+    plan_tier: str = "free",
+):
+    """
+    Trigger PPTX export for a completed deck.
+
+    Flow:
+    1. Fetch deck JSON from PostgreSQL
+    2. Verify generation_status == "complete"
+    3. Call Phase 2 /layout/solve-deck to get LayoutSolutions
+    4. Call Phase 3 export service
+    5. Return signed download URL
+
+    Returns HTTP 404 if deck not found.
+    Returns HTTP 409 if deck generation is not yet complete.
+    Returns HTTP 422 if deck has validation errors that prevent export.
+    """
+    from services.db.session import get_db_session
+    from services.db.models import Deck
+    from services.export_client import trigger_pptx_export
+    import httpx
+
+    # ── Fetch deck ────────────────────────────────────────────────────────────
+    async with get_db_session() as session:
+        record = await session.get(Deck, presentation_id)
+
+    if not record:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Deck '{presentation_id}' not found.",
+        )
+    if record.generation_status not in ("complete", "partial_failure"):
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                f"Deck generation status is '{record.generation_status}'. "
+                f"Export is only available for complete or partial_failure decks."
+            ),
+        )
+
+    deck_json = record.deck_json
+
+    # ── Solve layout (Phase 2) ────────────────────────────────────────────────
+    layout_service_url = "http://api:8000"   # Phase 2 runs on the same service
+    async with httpx.AsyncClient(timeout=90.0) as client:
+        layout_resp = await client.post(
+            f"{layout_service_url}/api/v1/layout/solve-deck",
+            json={
+                "deck":         deck_json,
+                "canvas_px_w":  1280,
+                "canvas_px_h":  720,
+            },
+        )
+        layout_resp.raise_for_status()
+
+    layout_solutions = layout_resp.json().get("solutions", {})
+
+    # ── Export (Phase 3) ──────────────────────────────────────────────────────
+    try:
+        result = await trigger_pptx_export(deck_json, layout_solutions, plan_tier)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+
+    return result

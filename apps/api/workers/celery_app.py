@@ -59,7 +59,13 @@ def publish_ws_event(job_id: str, event: dict) -> None:
     max_retries=3,
     default_retry_delay=5,
 )
-def generate_presentation_task(self, job_id: str, request: dict) -> dict:
+def generate_presentation_task(
+    self,
+    job_id: str,
+    request: dict,
+    tenant_id: str | None = None,
+    doc_ids: list[str] | None = None,
+) -> dict:
     """
     Main generation task. Runs the 4-step AI pipeline.
 
@@ -99,7 +105,7 @@ def generate_presentation_task(self, job_id: str, request: dict) -> dict:
         asyncio.set_event_loop(loop)
         try:
             deck = loop.run_until_complete(
-                run_pipeline(job_id, request, publish_ws_event)
+                run_pipeline(job_id, request, publish_ws_event, tenant_id=tenant_id, doc_ids=doc_ids)
             )
         finally:
             loop.close()

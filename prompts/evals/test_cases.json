@@ -1,0 +1,572 @@
+[
+  {
+    "id": "tc_step2_001",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Q3 2024 financial results and outlook for a SaaS company",
+      "industry": "technology",
+      "audience": "board of directors",
+      "duration_minutes": 10,
+      "narrative_framework": "pyramid_principle",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "slides count between 8 and 15",
+      "all action_titles <= 60 chars",
+      "first slide is title_slide"
+    ]
+  },
+  {
+    "id": "tc_step2_002",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Product roadmap presentation for enterprise AI platform",
+      "industry": "technology",
+      "audience": "engineering leadership",
+      "duration_minutes": 20,
+      "narrative_framework": "chronological",
+      "theme": "modern_light",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "slides count between 15 and 25",
+      "all action_titles <= 60 chars",
+      "first slide is title_slide"
+    ]
+  },
+  {
+    "id": "tc_step2_003",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Competitive analysis of cloud infrastructure providers",
+      "industry": "technology",
+      "audience": "product managers",
+      "duration_minutes": 10,
+      "narrative_framework": "compare_contrast",
+      "theme": "startup_minimal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "slides count between 8 and 15",
+      "includes comparison elements"
+    ]
+  },
+  {
+    "id": "tc_step2_004",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Investor pitch deck for fintech company with $5M ARR",
+      "industry": "financial_services",
+      "audience": "venture capital investors",
+      "duration_minutes": 5,
+      "narrative_framework": "hero_journey",
+      "theme": "financial_formal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "slides count between 5 and 10",
+      "follows hero journey arc"
+    ]
+  },
+  {
+    "id": "tc_step2_005",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Annual board review for healthcare technology company",
+      "industry": "healthcare",
+      "audience": "board members",
+      "duration_minutes": 20,
+      "narrative_framework": "pyramid_principle",
+      "theme": "healthcare_clinical",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "slides count between 15 and 25",
+      "healthcare-appropriate language"
+    ]
+  },
+  {
+    "id": "tc_step2_006",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Digital transformation strategy for manufacturing firm",
+      "industry": "manufacturing",
+      "audience": "C-suite executives",
+      "duration_minutes": 10,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "problem-solution structure present"
+    ]
+  },
+  {
+    "id": "tc_step2_007",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Customer success metrics dashboard presentation",
+      "industry": "technology",
+      "audience": "customer success team",
+      "duration_minutes": 5,
+      "narrative_framework": "pyramid_principle",
+      "theme": "modern_light",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "includes data_chart slides"
+    ]
+  },
+  {
+    "id": "tc_step2_008",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Regulatory compliance update for financial services",
+      "industry": "financial_services",
+      "audience": "compliance officers",
+      "duration_minutes": 10,
+      "narrative_framework": "chronological",
+      "theme": "financial_formal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "regulatory context present"
+    ]
+  },
+  {
+    "id": "tc_step2_009",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Market entry strategy for Southeast Asian expansion",
+      "industry": "retail",
+      "audience": "regional leadership",
+      "duration_minutes": 20,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "geographic context mentioned"
+    ]
+  },
+  {
+    "id": "tc_step2_010",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Engineering team OKR review for Q4",
+      "industry": "technology",
+      "audience": "engineering managers",
+      "duration_minutes": 5,
+      "narrative_framework": "pyramid_principle",
+      "theme": "startup_minimal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "OKR structure present",
+      "slides count between 5 and 10"
+    ]
+  },
+  {
+    "id": "tc_step2_011",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "M&A integration progress update",
+      "industry": "financial_services",
+      "audience": "integration PMO",
+      "duration_minutes": 10,
+      "narrative_framework": "chronological",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "chronological structure"
+    ]
+  },
+  {
+    "id": "tc_step2_012",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Supply chain resilience assessment post-pandemic",
+      "industry": "manufacturing",
+      "audience": "operations leadership",
+      "duration_minutes": 10,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "risk assessment elements"
+    ]
+  },
+  {
+    "id": "tc_step2_013",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Employee engagement survey results presentation",
+      "industry": "technology",
+      "audience": "HR team and leadership",
+      "duration_minutes": 10,
+      "narrative_framework": "pyramid_principle",
+      "theme": "modern_light",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "data visualization slides"
+    ]
+  },
+  {
+    "id": "tc_step2_014",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Cost reduction initiative findings and recommendations",
+      "industry": "retail",
+      "audience": "CFO and finance team",
+      "duration_minutes": 10,
+      "narrative_framework": "pyramid_principle",
+      "theme": "financial_formal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "financial metrics present"
+    ]
+  },
+  {
+    "id": "tc_step2_015",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Public policy briefing on climate change regulations",
+      "industry": "government",
+      "audience": "policymakers",
+      "duration_minutes": 10,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "policy-appropriate language"
+    ]
+  },
+  {
+    "id": "tc_step1_001",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Create a quarterly business review for our SaaS startup",
+      "theme": "corporate_dark",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "technology",
+      "audience_pref": "board of directors",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "returns valid JSON",
+      "presentation_type is report or pitch",
+      "industry_vertical is technology"
+    ]
+  },
+  {
+    "id": "tc_step1_002",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Design a patient outcome analysis for the cardiology department",
+      "theme": "healthcare_clinical",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "healthcare",
+      "audience_pref": "medical professionals",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is healthcare",
+      "tone is formal"
+    ]
+  },
+  {
+    "id": "tc_step1_003",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Build a pitch deck for Series A fundraise targeting $10M",
+      "theme": "startup_minimal",
+      "narrative_framework_pref": "hero_journey",
+      "industry_vertical_pref": "general",
+      "audience_pref": "venture capital investors",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is pitch",
+      "narrative_framework is hero_journey"
+    ]
+  },
+  {
+    "id": "tc_step1_004",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Prepare a legal compliance training presentation for new hires",
+      "theme": "corporate_dark",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "legal",
+      "audience_pref": "new employees",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is legal",
+      "presentation_type is educational or workshop"
+    ]
+  },
+  {
+    "id": "tc_step1_005",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Create an investment portfolio review for high-net-worth clients",
+      "theme": "financial_formal",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "financial_services",
+      "audience_pref": "clients",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is financial_services",
+      "tone is formal"
+    ]
+  },
+  {
+    "id": "tc_step1_006",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Créer une présentation sur la stratégie de transformation digitale",
+      "theme": "modern_light",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "general",
+      "audience_pref": "executives",
+      "language_pref": "fr-FR"
+    },
+    "expected_properties": [
+      "language is fr-FR",
+      "presentation_type is proposal"
+    ]
+  },
+  {
+    "id": "tc_step1_007",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Workshop presentation on Kubernetes deployment best practices",
+      "theme": "startup_minimal",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "technology",
+      "audience_pref": "developers",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is workshop or educational",
+      "industry_vertical is technology"
+    ]
+  },
+  {
+    "id": "tc_step1_008",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Government budget proposal for fiscal year 2025",
+      "theme": "corporate_dark",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "government",
+      "audience_pref": "legislature",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is government",
+      "presentation_type is proposal"
+    ]
+  },
+  {
+    "id": "tc_step1_009",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Keynote speech on the future of artificial intelligence in education",
+      "theme": "modern_light",
+      "narrative_framework_pref": "hero_journey",
+      "industry_vertical_pref": "general",
+      "audience_pref": "conference attendees",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is keynote"
+    ]
+  },
+  {
+    "id": "tc_step1_010",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Compare AWS vs Azure vs GCP for enterprise cloud migration",
+      "theme": "startup_minimal",
+      "narrative_framework_pref": "compare_contrast",
+      "industry_vertical_pref": "technology",
+      "audience_pref": "CTO and engineering leads",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "narrative_framework is compare_contrast",
+      "industry_vertical is technology"
+    ]
+  },
+  {
+    "id": "tc_step1_011",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Drug trial Phase 3 results summary for the FDA advisory committee",
+      "theme": "healthcare_clinical",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "healthcare",
+      "audience_pref": "FDA advisory committee",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is healthcare",
+      "tone is formal",
+      "presentation_type is report"
+    ]
+  },
+  {
+    "id": "tc_step1_012",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "IPO readiness assessment for a $500M revenue technology company",
+      "theme": "financial_formal",
+      "narrative_framework_pref": "pyramid_principle",
+      "industry_vertical_pref": "financial_services",
+      "audience_pref": "board and underwriters",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "industry_vertical is financial_services or technology",
+      "narrative_framework is pyramid_principle"
+    ]
+  },
+  {
+    "id": "tc_step1_013",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Cybersecurity incident response training for the SOC team",
+      "theme": "corporate_dark",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "technology",
+      "audience_pref": "security operations team",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is workshop or educational",
+      "industry_vertical is technology"
+    ]
+  },
+  {
+    "id": "tc_step1_014",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "Retail store expansion plan for the Eastern seaboard market",
+      "theme": "modern_light",
+      "narrative_framework_pref": "problem_solution",
+      "industry_vertical_pref": "general",
+      "audience_pref": "regional VP",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is proposal",
+      "narrative_framework is problem_solution"
+    ]
+  },
+  {
+    "id": "tc_step1_015",
+    "prompt_name": "step1_intent",
+    "input": {
+      "prompt": "AI ethics and responsible AI framework proposal for the organization",
+      "theme": "modern_light",
+      "narrative_framework_pref": "auto",
+      "industry_vertical_pref": "technology",
+      "audience_pref": "executive leadership",
+      "language_pref": "en-US"
+    },
+    "expected_properties": [
+      "presentation_type is proposal",
+      "industry_vertical is technology"
+    ]
+  },
+  {
+    "id": "tc_step2_016",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Cybersecurity posture assessment for a financial institution",
+      "industry": "financial_services",
+      "audience": "CISO and security team",
+      "duration_minutes": 10,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "problem-solution structure"
+    ]
+  },
+  {
+    "id": "tc_step2_017",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "ESG reporting and sustainability metrics overview",
+      "industry": "general",
+      "audience": "investors and stakeholders",
+      "duration_minutes": 10,
+      "narrative_framework": "pyramid_principle",
+      "theme": "modern_light",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "ESG metrics present"
+    ]
+  },
+  {
+    "id": "tc_step2_018",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Onboarding program overview for new software engineers",
+      "industry": "technology",
+      "audience": "new hires",
+      "duration_minutes": 20,
+      "narrative_framework": "chronological",
+      "theme": "startup_minimal",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "chronological structure",
+      "educational content"
+    ]
+  },
+  {
+    "id": "tc_step2_019",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Brand guidelines and visual identity standards presentation",
+      "industry": "retail",
+      "audience": "marketing team",
+      "duration_minutes": 10,
+      "narrative_framework": "pyramid_principle",
+      "theme": "modern_light",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "visual elements mentioned"
+    ]
+  },
+  {
+    "id": "tc_step2_020",
+    "prompt_name": "step2_outline",
+    "input": {
+      "user_prompt": "Data platform migration from on-prem to cloud",
+      "industry": "technology",
+      "audience": "CTO and directors of engineering",
+      "duration_minutes": 20,
+      "narrative_framework": "problem_solution",
+      "theme": "corporate_dark",
+      "rag_context_section": ""
+    },
+    "expected_properties": [
+      "technical migration phases"
+    ]
+  }
+]

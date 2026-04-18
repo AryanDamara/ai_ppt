@@ -1,0 +1,38 @@
+# Phase 3 Export Service Dependencies
+# Python 3.11
+
+# Core
+fastapi==0.110.0
+uvicorn[standard]==0.28.0
+pydantic==2.6.3
+pydantic-settings==2.2.1
+
+# PPTX generation
+python-pptx==0.6.23
+lxml==5.1.0
+
+# Image processing
+Pillow==10.2.0
+
+# SVG conversion
+svglib==1.5.1
+reportlab==4.0.7
+
+# AWS/S3
+boto3==1.34.0
+
+# HTTP client
+httpx==0.27.0
+
+# Retry logic
+tenacity==8.2.3
+
+# Logging
+structlog==24.1.0
+
+# Monitoring
+prometheus-client==0.20.0
+
+# Testing
+pytest==8.1.0
+pytest-asyncio==0.23.5

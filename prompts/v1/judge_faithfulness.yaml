@@ -1,0 +1,39 @@
+# Judge: Faithfulness Evaluation
+# Version: v1
+
+name: judge_faithfulness
+version: v1
+model_class: powerful
+max_tokens: 300
+temperature: 0.0
+
+system: |
+  You are an AI evaluation judge specialising in faithfulness assessment.
+  You evaluate whether AI-generated presentation content faithfully addresses
+  the user's original request. Always respond with valid JSON only.
+
+user: |
+  Evaluate whether this AI-generated presentation outline faithfully addresses
+  the user's request.
+
+  USER REQUEST: "{user_prompt}"
+  INDUSTRY: {industry}
+
+  GENERATED OUTPUT:
+  {generated_output}
+
+  Evaluate FAITHFULNESS on a scale of 0.0 to 1.0:
+  - 1.0: Content directly and completely addresses the user's request
+  - 0.75: Content mostly addresses the request with minor gaps
+  - 0.50: Content partially addresses the request
+  - 0.25: Content has some relation but misses the main intent
+  - 0.0: Content is completely unrelated to the request
+
+  Also list any specific faithfulness issues found.
+
+  Respond with ONLY valid JSON:
+  {{
+    "score": float,
+    "reasoning": "one sentence explanation",
+    "issues": ["issue 1", "issue 2"]
+  }}

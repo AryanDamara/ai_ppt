@@ -1,0 +1,62 @@
+# Prompt Eval CI Gate
+# Runs LLM-as-Judge evaluations on any PR that modifies prompts/
+# Fails the build if eval scores regress by more than 5%.
+
+name: Prompt Eval Gate
+
+on:
+  pull_request:
+    paths:
+      - 'prompts/**'
+      - 'apps/api/services/llmops/**'
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        working-directory: apps/api
+        run: |
+          pip install -r requirements.txt
+          pip install openai pyyaml
+
+      - name: Run Prompt Evaluations
+        working-directory: apps/api
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          REDIS_URL: redis://localhost:6379/0
+          ENVIRONMENT: ci
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGSMITH_PROJECT: aippt-ci
+        run: |
+          python -m services.llmops.eval_runner --all --verbose
+
+      - name: Post Results to PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Prompt Eval Results\n\nWorkflow: ${context.workflow}\nStatus: ${context.job.status}\n\nSee job logs for detailed scores.`
+            });

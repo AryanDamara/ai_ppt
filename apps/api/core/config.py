@@ -37,6 +37,27 @@ class Settings(BaseSettings):
     environment: str = "development"
     log_level: str = "INFO"
 
+    # ── Phase 5: LLMOps ─────────────────────────────────────────────────
+    # LangSmith tracing
+    langsmith_api_key: str = ""
+    langsmith_project: str = "aippt-production"
+    langsmith_sample_rate: float = 0.10
+
+    # Supabase Auth
+    supabase_url: str = ""
+    supabase_jwt_secret: str = ""
+    supabase_anon_key: str = ""
+
+    # Prompt registry
+    prompt_hot_reload: bool = False
+
+    # Dynamic model routing
+    force_model: str = ""  # Override all model routing (for testing)
+
+    # Cost monitoring
+    max_cost_per_call_usd: float = 5.0
+    default_daily_budget_usd: float = 10.0
+
     class Config:
         env_file = ".env"
 

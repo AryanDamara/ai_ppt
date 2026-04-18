@@ -1,0 +1,71 @@
+# Prompt Registry — source of truth for all LLM prompts.
+# NEVER hardcode prompts in Python files. Always load from here.
+# Version a prompt by creating prompts/vN/{name}.yaml and updating this file.
+
+schema_version: "1.0.0"
+last_updated: "2024-10-15"
+
+prompts:
+  step1_intent:
+    active_version: "v1"
+    description: "Extract user intent, industry vertical, narrative framework"
+    model_class: "fast"
+    max_tokens: 500
+    temperature: 0.1
+    tags: ["generation", "step1"]
+
+  step2_outline:
+    active_version: "v1"
+    description: "Generate hierarchical slide outline with section structure"
+    model_class: "powerful"
+    max_tokens: 2000
+    temperature: 0.3
+    tags: ["generation", "step2"]
+
+  step3_content:
+    active_version: "v1"
+    description: "Generate per-slide content with bullets, data, citations"
+    model_class: "powerful"
+    max_tokens: 1500
+    temperature: 0.5
+    tags: ["generation", "step3"]
+
+  step3_content_rag:
+    active_version: "v1"
+    description: "Per-slide content grounded in retrieved document context"
+    model_class: "powerful"
+    max_tokens: 1500
+    temperature: 0.3
+    tags: ["generation", "step3", "rag"]
+
+  step4_validate:
+    active_version: "v1"
+    description: "Schema validation, hallucination flagging, quality scoring"
+    model_class: "fast"
+    max_tokens: 800
+    temperature: 0.0
+    tags: ["validation", "step4"]
+
+  judge_faithfulness:
+    active_version: "v1"
+    description: "LLM-as-Judge: score factual faithfulness of a generated slide"
+    model_class: "powerful"
+    max_tokens: 300
+    temperature: 0.0
+    tags: ["eval", "judge"]
+
+  judge_schema_compliance:
+    active_version: "v1"
+    description: "LLM-as-Judge: score schema compliance of generated JSON"
+    model_class: "fast"
+    max_tokens: 200
+    temperature: 0.0
+    tags: ["eval", "judge"]
+
+  judge_hallucination:
+    active_version: "v1"
+    description: "LLM-as-Judge: detect hallucinations in generated slide content"
+    model_class: "powerful"
+    max_tokens: 400
+    temperature: 0.0
+    tags: ["eval", "judge"]

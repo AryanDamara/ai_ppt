@@ -1,4 +1,3 @@
-version: '3.9'
 
 services:
   postgres:
@@ -38,6 +37,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql+asyncpg://aippt:aipptdev@postgres:5432/aippt
       - REDIS_URL=redis://redis:6379/0
@@ -56,6 +57,8 @@ services:
     build:
       context: ../apps/api
       dockerfile: Dockerfile.dev
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql+asyncpg://aippt:aipptdev@postgres:5432/aippt
       - REDIS_URL=redis://redis:6379/0
@@ -82,6 +85,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    env_file:
+      - ../apps/web/.env.local
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NEXT_PUBLIC_WS_URL=ws://localhost:8000
@@ -90,6 +95,65 @@ services:
       - /app/node_modules
       - /app/.next
     command: npm run dev
+
+  export-service:
+    build:
+      context: ../services/export
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_BUCKET=${S3_EXPORT_BUCKET:-aippt-exports}
+      - MAIN_API_URL=http://api:8000
+      - ENVIRONMENT=development
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ../services/export:/app
+      - ../services/export/fonts:/app/fonts:ro
+    depends_on:
+      - api
+    command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+
+  ingestion-service:
+    build:
+      context: ../services/ingestion
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    environment:
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - PINECONE_INDEX_NAME=${PINECONE_INDEX_NAME}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379/1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - S3_RAW_DOCUMENTS_BUCKET=${S3_RAW_DOCUMENTS_BUCKET}
+      - ENVIRONMENT=development
+    depends_on:
+      - redis
+    command: uvicorn main:app --host 0.0.0.0 --port 8002 --reload
+
+  ingestion-worker:
+    build:
+      context: ../services/ingestion
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379/1
+    depends_on:
+      - redis
+    command: celery -A workers.celery_app worker --loglevel=info --concurrency=2 -Q ingestion
 
 volumes:
   postgres_data:

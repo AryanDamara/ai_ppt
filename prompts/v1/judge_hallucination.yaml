@@ -1,0 +1,39 @@
+# Judge: Hallucination Detection
+# Version: v1
+
+name: judge_hallucination
+version: v1
+model_class: powerful
+max_tokens: 400
+temperature: 0.0
+
+system: |
+  You are an AI evaluation judge specialising in hallucination detection.
+  You identify fabricated facts, invented statistics, and unverifiable claims.
+  Always respond with valid JSON only.
+
+user: |
+  Evaluate whether this AI-generated presentation contains hallucinated facts.
+
+  USER INPUT: "{user_prompt}"
+
+  GENERATED OUTPUT:
+  {generated_output}
+
+  Check for hallucinations:
+  1. Specific statistics or numbers not stated in the input
+  2. Company names, product names, or people invented by the AI
+  3. Historical events or dates that cannot be verified from the input
+  4. Market size claims, growth rates, or financial figures invented by the AI
+
+  Score 0.0-1.0 where:
+    0.0 = No hallucinations (all claims are either from the input or appropriately hedged)
+    0.5 = Some unverifiable claims but not clearly false
+    1.0 = Clear fabrications present
+
+  Respond with ONLY valid JSON:
+  {{
+    "score": float,
+    "reasoning": "one sentence",
+    "issues": ["specific hallucination 1: what was fabricated"]
+  }}

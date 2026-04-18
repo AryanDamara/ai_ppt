@@ -152,6 +152,8 @@ async def generate_slide_content(
     deck_context: dict,
     temperature: float = 0.3,
     cost_tracker: dict = None,
+    tenant_id: str | None = None,
+    doc_ids: list[str] | None = None,
 ) -> dict:
     """
     Step 3: Generate complete content for one slide.
@@ -162,6 +164,29 @@ async def generate_slide_content(
     """
     if cost_tracker is None:
         cost_tracker = {"input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0}
+
+    # ── RAG context retrieval (if documents provided) ─────────────────────────
+    rag_context = ""
+    citations = []
+
+    if doc_ids and tenant_id:
+        from services.orchestration.retrieval_client import retrieve_context
+
+        # Use the slide topic / action_title as the retrieval query
+        retrieval_query = (
+            slide_outline.get("action_title") or
+            slide_outline.get("topic") or
+            deck_context.get("metadata", {}).get("title", "")
+        )
+
+        if retrieval_query:
+            retrieved = await retrieve_context(
+                query=retrieval_query,
+                tenant_id=tenant_id,
+                doc_ids=doc_ids,
+            )
+            rag_context = retrieved.get("context_string", "")
+            citations = retrieved.get("citations", [])
 
     slide_type = slide_outline["slide_type"]
     schema_desc = SLIDE_TYPE_SCHEMAS.get(slide_type, "")
@@ -174,6 +199,28 @@ async def generate_slide_content(
         else settings.openai_model_primary
     )
 
+    # Build system prompt with RAG context if available
+    system_content = SLIDE_CONTENT_SYSTEM.format(
+        slide_type=slide_type,
+        slide_type_schema=schema_desc,
+        industry_vertical=deck_context.get("industry_vertical", "general"),
+    )
+
+    if rag_context:
+        system_content += f"""
+\nGROUNDING RULES (follow strictly):
+1. Base ALL factual claims, numbers, and insights on the provided source excerpts.
+2. Quote specific figures exactly as they appear in the sources.
+3. When citing a source, use the label format [Source N] in your reasoning.
+4. If the sources do not contain information relevant to a point, state it as
+   general context (not specific to the sources) — do not hallucinate facts.
+5. Set hallucination_risk_flags to [] for claims directly sourced from the excerpts.
+6. Set hallucination_risk_flags to ["not_in_source_documents"] for general statements.
+
+DOCUMENT EXCERPTS:
+{rag_context}
+"""
+
     try:
         response = await client.chat.completions.create(
             model=model,
@@ -183,11 +230,7 @@ async def generate_slide_content(
             messages=[
                 {
                     "role": "system",
-                    "content": SLIDE_CONTENT_SYSTEM.format(
-                        slide_type=slide_type,
-                        slide_type_schema=schema_desc,
-                        industry_vertical=deck_context.get("industry_vertical", "general"),
-                    )
+                    "content": system_content
                 },
                 {
                     "role": "user",
@@ -250,6 +293,17 @@ async def generate_slide_content(
             for bullet in result["content"].get("bullets", []):
                 if not bullet.get("element_id"):
                     bullet["element_id"] = str(uuid4())
+
+        # ── Inject citations from retrieval ────────────────────────────────────
+        if citations:
+            result["citations"] = citations
+            # Clear hallucination flags for grounded slides
+            if "ai_metadata" not in result:
+                result["ai_metadata"] = {}
+            if "validation_state" not in result:
+                result["validation_state"] = {}
+            if rag_context and len(citations) > 0:
+                result["ai_metadata"]["hallucination_risk_flags"] = []
 
         return result
 
