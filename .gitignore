@@ -1,0 +1,412 @@
+# =============================================================================
+# AI PRESENTATION GENERATOR - MASTER GITIGNORE
+# =============================================================================
+# This is a multi-service monorepo with Python backends, Node.js frontend,
+# Docker containers, and ML/AI components. This file ensures secrets,
+# build artifacts, and temporary files are never committed.
+# =============================================================================
+
+# =============================================================================
+# SECTION 1: ENVIRONMENT FILES (SECRETS & CONFIGURATION)
+# =============================================================================
+# NEVER commit .env files - they contain API keys, database passwords, JWT secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# Allow example/template files (safe to commit)
+!.env.example
+!.env.template
+!.env.sample
+
+# Python local environment
+.venv/
+venv/
+ENV/
+env/
+
+# =============================================================================
+# SECTION 2: PYTHON ARTIFACTS (All Python Services)
+# =============================================================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytestdebug.log
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Bandit security scanner
+.bandit
+
+# =============================================================================
+# SECTION 3: NODE.JS / FRONTEND ARTIFACTS
+# =============================================================================
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+dist-ssr/
+*.local
+
+# Next.js
+.next/
+out/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vite
+.vite/
+
+# =============================================================================
+# SECTION 4: DOCKER & INFRASTRUCTURE
+# =============================================================================
+# Docker volumes (persistent data)
+volumes/
+postgres_data/
+redis_data/
+minio_data/
+
+# Docker build cache
+.dockerignore
+
+# Kubernetes secrets
+*k8s*secret*.yaml
+*secret*.yaml
+!*secret*example*.yaml
+!*secret*template*.yaml
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# =============================================================================
+# SECTION 5: AI/ML SPECIFIC FILES
+# =============================================================================
+# Model downloads and caches
+models/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.h5
+*.pb
+
+# Hugging Face cache
+.cache/huggingface/
+~/.cache/huggingface/
+
+# Docling cache
+~/.cache/docling/
+
+# PyTorch
+~/.torch/
+
+# TensorFlow
+~/.tensorflow/
+
+# spaCy models (large binary files)
+*.tar.gz
+en_core_web_*
+!en_core_web_*-*.txt
+
+# NLTK data
+nltk_data/
+
+# Sentence Transformers cache
+~/.cache/torch/
+sentence_transformers/
+
+# OpenAI / Anthropic / Other LLM caches
+~/.openai/
+~/.anthropic/
+
+# Tesseract training data
+tessdata/
+*.traineddata
+
+# =============================================================================
+# SECTION 6: SERVICE-SPECIFIC PATTERNS
+# =============================================================================
+
+# --- API Service (apps/api) ---
+apps/api/.env
+apps/api/.coverage
+apps/api/__pycache__/
+
+# --- Export Service (services/export) ---
+services/export/.env
+services/export/.coverage
+# Font files (large binaries, should be downloaded in container)
+services/export/fonts/*.ttf
+services/export/fonts/*.otf
+services/export/fonts/*.woff
+services/export/fonts/*.woff2
+
+# --- Ingestion Service (services/ingestion) ---
+services/ingestion/.env
+services/ingestion/.coverage
+# Raw document storage (user uploads)
+services/ingestion/storage/documents/
+services/ingestion/storage/temp/
+
+# --- Web Frontend (apps/web) ---
+apps/web/.env*.local
+apps/web/node_modules/
+apps/web/.next/
+apps/web/dist/
+
+# =============================================================================
+# SECTION 7: DATABASE FILES
+# =============================================================================
+# SQLite
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+
+# PostgreSQL local data (if running outside Docker)
+pgsql/
+
+# Redis dump
+*.rdb
+*.aof
+
+# Migration backups
+*.backup
+*.bak
+
+# =============================================================================
+# SECTION 8: LOGS & TEMPORARY FILES
+# =============================================================================
+# Log files
+logs/
+*.log
+*.log.*
+log/
+log.txt
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Lock files (except package managers)
+*.lock
+# But keep these:
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+!Pipfile.lock
+!poetry.lock
+
+# =============================================================================
+# SECTION 9: IDE & EDITOR FILES
+# =============================================================================
+# VS Code
+.vscode/
+!.vscode/settings.json.example
+!.vscode/extensions.json.example
+!.vscode/launch.json.example
+!.vscode/tasks.json.example
+
+# JetBrains (WebStorm, PyCharm, IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.vim
+.viminfo
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Linux
+*~
+.nfs*
+
+# =============================================================================
+# SECTION 10: GENERATED FILES & ARTIFACTS
+# =============================================================================
+# Generated presentations (user downloads)
+*.pptx
+*.ppt
+*.pdf
+exports/
+downloads/
+
+# Test fixtures output
+test_output/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Storybook
+storybook-static/
+
+# Coverage badges
+coverage-badge.svg
+
+# =============================================================================
+# SECTION 11: SECURITY & SENSITIVE FILES
+# =============================================================================
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# SSH keys
+.ssh/
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+
+# AWS credentials
+.aws/
+
+# GCP credentials
+gcloud/
+*.json.key
+application_default_credentials.json
+
+# Azure credentials
+.azure/
+
+# Kubernetes
+.kube/
+
+# =============================================================================
+# SECTION 12: MONOREPO-SPECIFIC
+# =============================================================================
+# Turborepo (if used)
+.turbo/
+
+# Nx (if used)
+.nx/
+
+# pnpm workspace
+.pnpm-store/
+
+# Changesets
+.changeset/*.md
+!.changeset/config.json
+
+# =============================================================================
+# SECTION 13: PROJECT-SPECIFIC OVERRIDES
+# =============================================================================
+# Allow specific files that match patterns above
+# Uncomment if needed:
+# !docs/examples/*.pptx
+# !tests/fixtures/*.pdf

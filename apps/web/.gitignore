@@ -1,0 +1,47 @@
+# Web Frontend (Next.js) Specific Gitignore
+# See root .gitignore for comprehensive patterns
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Build outputs
+/.next/
+/out/
+/dist/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# PWA
+public/sw.js
+public/workbox-*.js
+public/worker-*.js
+
+# Storybook
+storybook-static/
+
+# Testing
+coverage/
+.nyc_output/
